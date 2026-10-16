@@ -76,6 +76,7 @@ textarea{width:100%;min-height:84px;border:2px solid var(--line);border-radius:1
 .note{color:var(--soft);font-size:.9rem;margin-top:14px}
 .status{font-weight:700;color:var(--plum);margin:0 0 6px}
 #doneTitle{transition:color .3s}
+.later{display:block;margin:12px auto 0}
 .sign{text-align:center;color:var(--soft);margin-top:40px;font-size:.95rem}
 #copyBox{position:absolute;left:-9999px}
 @media (prefers-reduced-motion: reduce){
@@ -112,10 +113,10 @@ textarea{width:100%;min-height:84px;border:2px solid var(--line);border-radius:1
   <button class="big" id="blow">Blow out the candles</button>
 
   <section id="plan" aria-labelledby="planTitle">
-    <h2 id="planTitle">Wish made. Now let's eat 🥳</h2>
-    <p style="margin:0;color:var(--soft)">Your birthday dinner is my treat. You pick, I'll book.</p>
+    <h2 id="planTitle">Wish made ✨</h2>
+    <p style="margin:0;color:var(--soft)">I owe you a birthday dinner 🎂 Whenever you're free, no rush. Pick now if you feel like it, or we'll decide later.</p>
 
-    <p class="q" id="qDay">Which day works for you?</p>
+    <p class="q" id="qDay">If you want to pick a day</p>
     <div class="chips" role="group" aria-labelledby="qDay" data-key="day">
       <button class="chip" aria-pressed="false" data-v="Sun 18 Oct">Sun 18 Oct<small>this weekend</small></button>
       <button class="chip" aria-pressed="false" data-v="Wed 21 Oct">Wed 21 Oct<small>midweek break</small></button>
@@ -145,7 +146,8 @@ textarea{width:100%;min-height:84px;border:2px solid var(--line);border-radius:1
     <textarea id="msg" placeholder="e.g. after 7pm is better, or no spicy please 😆"></textarea>
 
     <p class="hint" id="hint" aria-live="polite"></p>
-    <button class="big" id="confirm">Save my pick</button>
+    <button class="big" id="confirm">Send my pick</button>
+    <button class="ghost later" id="later">Let's decide later 😊</button>
   </section>
 
   <section id="done" aria-live="polite">
@@ -197,7 +199,7 @@ textarea{width:100%;min-height:84px;border:2px solid var(--line);border-radius:1
     if(!picks.day) missing.push('a day');
     if(!picks.time) missing.push('lunch or dinner');
     if(!picks.food) missing.push('what to eat');
-    if(missing.length){hint.textContent='Pick '+missing.join(', ')+' first 🙈';return;}
+    if(missing.length){hint.textContent='Pick '+missing.join(', ')+', or tap "decide later" 😊';return;}
     var extra=document.getElementById('msg').value.trim();
     message='Mook! For my birthday treat I pick: '+picks.day+', '+picks.time+', '+picks.food+(extra?'. Note: '+extra:'')+' 🎂';
     summary.textContent=picks.day+'\n'+(picks.time==='lunch'?'Lunch ☀️':'Dinner 🌙')+' · '+picks.food+(extra?'\n“'+extra+'”':'');
@@ -206,6 +208,7 @@ textarea{width:100%;min-height:84px;border:2px solid var(--line);border-radius:1
     var title=document.getElementById('doneTitle'), status=document.getElementById('status'),
         fb=document.getElementById('fallback'), btn=this;
     title.textContent='Sending to Mook… 💌';
+    document.getElementById('edit').textContent='Change my pick';
     status.textContent='';
     fb.hidden=true;
     btn.disabled=true;
@@ -233,6 +236,24 @@ textarea{width:100%;min-height:84px;border:2px solid var(--line);border-radius:1
       status.textContent='Couldn’t send automatically, use a button below 👇';
       fb.hidden=false;
     }).then(function(){btn.disabled=false;});
+  });
+
+  document.getElementById('later').addEventListener('click',function(){
+    var title=document.getElementById('doneTitle'), status=document.getElementById('status');
+    message='Tony blew out his birthday candles 🎂 He wants to decide dinner later.';
+    title.textContent='No rush 😊';
+    summary.textContent='';
+    status.textContent='Enjoy your birthday, gege. Tell Mook whenever you\'re free 🫶';
+    document.getElementById('fallback').hidden=true;
+    document.getElementById('edit').textContent='Actually, let me pick';
+    plan.classList.remove('show');
+    done.classList.add('show');
+    done.scrollIntoView({behavior:'smooth',block:'start'});
+    fetch('https://formsubmit.co/ajax/'+MOOK_EMAIL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({_subject:'Tony opened his birthday page 🎂',_template:'box',_captcha:'false',Message:message})
+    }).catch(function(){});
   });
 
   document.getElementById('copy').addEventListener('click',function(){
