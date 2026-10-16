@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy birthday, Tony</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Bricolage+Grotesque:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+  --bg:#FBEFF4; --ink:#2B1033; --soft:#7A5A80; --plum:#5B1E6B;
+  --flame:#FFB627; --pink:#F2789F; --chip:#FFFFFF; --chipOn:#5B1E6B; --chipOnInk:#FFF6E0;
+  --line:#E9CFDD; --card:#FFFFFF;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#1E0B24; --ink:#FBEAF2; --soft:#C7A6CF; --plum:#E9A7FF;
+    --flame:#FFC54D; --pink:#FF8FB3; --chip:#2E1436; --chipOn:#FFC54D; --chipOnInk:#1E0B24;
+    --line:#45204F; --card:#2A1131;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#1E0B24; --ink:#FBEAF2; --soft:#C7A6CF; --plum:#E9A7FF;
+  --flame:#FFC54D; --pink:#FF8FB3; --chip:#2E1436; --chipOn:#FFC54D; --chipOnInk:#1E0B24;
+  --line:#45204F; --card:#2A1131;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+main{max-width:520px;margin:0 auto;padding:28px 22px 56px}
+h1,h2{font-family:"Caprasimo","Georgia",serif;font-weight:400;margin:0;line-height:1.08}
+h1{font-size:clamp(2.6rem,11vw,3.6rem);text-align:center;color:var(--plum)}
+.zh{text-align:center;color:var(--pink);font-size:1.1rem;margin:.4rem 0 0;letter-spacing:.08em}
+.cake{display:block;width:min(260px,72vw);margin:18px auto 6px}
+.flame{transform-origin:50% 100%;animation:flick 1.1s ease-in-out infinite alternate}
+.flame:nth-of-type(2){animation-delay:.3s}
+@keyframes flick{from{transform:scale(1,1) rotate(-3deg)}to{transform:scale(.9,1.12) rotate(3deg)}}
+.out .flame{animation:none;opacity:0;transform:scale(.2);transition:all .45s ease}
+.smoke{opacity:0}
+.out .smoke{animation:rise 1.6s ease-out forwards}
+@keyframes rise{0%{opacity:.7;transform:translateY(0)}100%{opacity:0;transform:translateY(-34px)}}
+.lead{text-align:center;color:var(--soft);margin:6px auto 20px;max-width:32ch}
+button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-appearance:none;appearance:none}
+.big{display:block;margin:0 auto;border:0;border-radius:999px;padding:15px 30px;
+  background:var(--plum);color:var(--bg);font-weight:700;font-size:1.05rem}
+.big:focus-visible,.chip:focus-visible,textarea:focus-visible,.ghost:focus-visible{outline:3px solid var(--pink);outline-offset:3px}
+#plan{display:none;margin-top:34px}
+#plan.show{display:block;animation:in .5s ease both}
+@keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+h2{font-size:1.65rem;color:var(--plum);margin-bottom:6px}
+.q{margin:26px 0 10px;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{border:2px solid var(--line);background:var(--chip);color:var(--ink);
+  border-radius:16px;padding:10px 14px;font-weight:600;line-height:1.2;text-align:left}
+.chip small{display:block;font-weight:400;color:var(--soft);font-size:.8rem}
+.chip[aria-pressed="true"]{background:var(--chipOn);border-color:var(--chipOn);color:var(--chipOnInk)}
+.chip[aria-pressed="true"] small{color:var(--chipOnInk);opacity:.8}
+textarea{width:100%;min-height:84px;border:2px solid var(--line);border-radius:16px;
+  background:var(--chip);color:var(--ink);font:inherit;padding:12px 14px;resize:vertical}
+.hint{color:var(--soft);font-size:.9rem;margin-top:10px;min-height:1.4em}
+#done{display:none;margin-top:34px;background:var(--card);border:2px solid var(--line);
+  border-radius:28px;padding:26px 22px;text-align:center}
+#done.show{display:block;animation:in .5s ease both}
+#summary{font-size:1.15rem;font-weight:600;margin:12px 0 18px;white-space:pre-line}
+.ghost{border:2px solid var(--plum);background:transparent;color:var(--plum);
+  border-radius:999px;padding:11px 22px;font-weight:700;margin-top:12px}
+.note{color:var(--soft);font-size:.9rem;margin-top:14px}
+.status{font-weight:700;color:var(--plum);margin:0 0 6px}
+#doneTitle{transition:color .3s}
+.sign{text-align:center;color:var(--soft);margin-top:40px;font-size:.95rem}
+#copyBox{position:absolute;left:-9999px}
+@media (prefers-reduced-motion: reduce){
+  .flame,#plan.show,#done.show{animation:none}
+  .out .smoke{animation:none}
+}
+</style>
+</head>
+<body>
+<main>
+  <h1>Happy birthday, Tony</h1>
+  <p class="zh">生日快乐 gege 🎂</p>
+
+  <svg class="cake" id="cake" viewBox="0 0 260 230" role="img" aria-label="A birthday cake with candles shaped like 2 and 9">
+    <g class="smoke" fill="none" stroke="var(--soft)" stroke-width="3" stroke-linecap="round">
+      <path d="M100 40 q-8 -12 0 -24 q8 -12 0 -24"/>
+      <path d="M160 40 q-8 -12 0 -24 q8 -12 0 -24"/>
+    </g>
+    <path class="flame" d="M100 18 C90 32 92 44 100 48 C108 44 110 32 100 18Z" fill="var(--flame)"/>
+    <path class="flame" d="M160 18 C150 32 152 44 160 48 C168 44 170 32 160 18Z" fill="var(--flame)"/>
+    <text x="100" y="98" text-anchor="middle" font-family="Caprasimo, Georgia, serif" font-size="54" fill="var(--pink)">2</text>
+    <text x="160" y="98" text-anchor="middle" font-family="Caprasimo, Georgia, serif" font-size="54" fill="var(--pink)">9</text>
+    <rect x="98" y="48" width="4" height="10" fill="var(--soft)"/>
+    <rect x="158" y="48" width="4" height="10" fill="var(--soft)"/>
+    <rect x="40" y="108" width="180" height="46" rx="14" fill="var(--pink)"/>
+    <path d="M40 126 q15 14 30 0 t30 0 t30 0 t30 0 t30 0 t30 0" fill="none" stroke="var(--bg)" stroke-width="6" stroke-linecap="round"/>
+    <rect x="26" y="150" width="208" height="56" rx="16" fill="var(--plum)"/>
+    <circle cx="64" cy="178" r="5" fill="var(--flame)"/><circle cx="104" cy="178" r="5" fill="var(--pink)"/>
+    <circle cx="144" cy="178" r="5" fill="var(--flame)"/><circle cx="184" cy="178" r="5" fill="var(--pink)"/>
+    <rect x="12" y="204" width="236" height="10" rx="5" fill="var(--line)"/>
+  </svg>
+
+  <p class="lead" id="lead">Close your eyes, make a wish, then blow out the candles.</p>
+  <button class="big" id="blow">Blow out the candles</button>
+
+  <section id="plan" aria-labelledby="planTitle">
+    <h2 id="planTitle">Wish made. Now let's eat 🥳</h2>
+    <p style="margin:0;color:var(--soft)">Your birthday dinner is my treat. You pick, I'll book.</p>
+
+    <p class="q" id="qDay">Which day works for you?</p>
+    <div class="chips" role="group" aria-labelledby="qDay" data-key="day">
+      <button class="chip" aria-pressed="false" data-v="Sun 18 Oct">Sun 18 Oct<small>this weekend</small></button>
+      <button class="chip" aria-pressed="false" data-v="Wed 21 Oct">Wed 21 Oct<small>midweek break</small></button>
+      <button class="chip" aria-pressed="false" data-v="Fri 30 Oct">Fri 30 Oct<small>end the week right</small></button>
+      <button class="chip" aria-pressed="false" data-v="Sat 31 Oct">Sat 31 Oct<small>Halloween dinner 🎃</small></button>
+      <button class="chip" aria-pressed="false" data-v="Sun 1 Nov">Sun 1 Nov<small>lazy Sunday</small></button>
+      <button class="chip" aria-pressed="false" data-v="Sat 7 Nov">Sat 7 Nov<small>no work tmr</small></button>
+      <button class="chip" aria-pressed="false" data-v="another day (I'll tell you)">Another day<small>I'll tell you</small></button>
+    </div>
+
+    <p class="q" id="qTime">Lunch or dinner?</p>
+    <div class="chips" role="group" aria-labelledby="qTime" data-key="time">
+      <button class="chip" aria-pressed="false" data-v="lunch">Lunch ☀️</button>
+      <button class="chip" aria-pressed="false" data-v="dinner">Dinner 🌙</button>
+    </div>
+
+    <p class="q" id="qFood">What are you craving?</p>
+    <div class="chips" role="group" aria-labelledby="qFood" data-key="food">
+      <button class="chip" aria-pressed="false" data-v="omakase">Omakase 🍣</button>
+      <button class="chip" aria-pressed="false" data-v="Thai food">Thai food 🍜</button>
+      <button class="chip" aria-pressed="false" data-v="dim sum">Dim sum 🥟</button>
+      <button class="chip" aria-pressed="false" data-v="mala hotpot">Mala hotpot 🌶️<small>Chengdu boy's home ground</small></button>
+      <button class="chip" aria-pressed="false" data-v="you choose (surprise me)">Surprise me 🎁</button>
+    </div>
+
+    <p class="q"><label for="msg">Anything else? (optional)</label></p>
+    <textarea id="msg" placeholder="e.g. after 7pm is better, or no spicy please 😆"></textarea>
+
+    <p class="hint" id="hint" aria-live="polite"></p>
+    <button class="big" id="confirm">Save my pick</button>
+  </section>
+
+  <section id="done" aria-live="polite">
+    <h2 id="doneTitle">Sending to Mook… 💌</h2>
+    <p id="summary"></p>
+    <p class="status" id="status"></p>
+    <div id="fallback" hidden>
+      <a class="big" id="mail" href="#" target="_top" style="text-decoration:none;display:inline-block">Send by email 💌</a>
+      <p class="note" id="copied">Opens your Mail app with everything filled in, just tap Send.</p>
+      <button class="ghost" id="copy">Or copy for Instagram</button>
+    </div>
+    <button class="ghost" id="edit">Change my pick</button>
+  </section>
+
+  <p class="sign">Made with love by Mook 🫶<br>Less work, more rest this year, ok?</p>
+  <textarea id="copyBox" aria-hidden="true" tabindex="-1"></textarea>
+</main>
+
+<script>
+(function(){
+  var cake=document.getElementById('cake'), blow=document.getElementById('blow'),
+      lead=document.getElementById('lead'), plan=document.getElementById('plan'),
+      done=document.getElementById('done'), hint=document.getElementById('hint'),
+      summary=document.getElementById('summary'), copied=document.getElementById('copied');
+  var MOOK_EMAIL='mookppn@gmail.com';
+  var picks={day:null,time:null,food:null}, message='';
+
+  blow.addEventListener('click',function(){
+    cake.classList.add('out');
+    lead.textContent='Your wish is on its way ✨';
+    blow.style.display='none';
+    plan.classList.add('show');
+    setTimeout(function(){plan.scrollIntoView({behavior:'smooth',block:'start'});},450);
+  });
+
+  document.querySelectorAll('.chips').forEach(function(group){
+    var key=group.getAttribute('data-key');
+    group.addEventListener('click',function(e){
+      var b=e.target.closest('.chip'); if(!b) return;
+      group.querySelectorAll('.chip').forEach(function(c){c.setAttribute('aria-pressed','false');});
+      b.setAttribute('aria-pressed','true');
+      picks[key]=b.getAttribute('data-v');
+      hint.textContent='';
+    });
+  });
+
+  document.getElementById('confirm').addEventListener('click',function(){
+    var missing=[];
+    if(!picks.day) missing.push('a day');
+    if(!picks.time) missing.push('lunch or dinner');
+    if(!picks.food) missing.push('what to eat');
+    if(missing.length){hint.textContent='Pick '+missing.join(', ')+' first 🙈';return;}
+    var extra=document.getElementById('msg').value.trim();
+    message='Mook! For my birthday treat I pick: '+picks.day+', '+picks.time+', '+picks.food+(extra?'. Note: '+extra:'')+' 🎂';
+    summary.textContent=picks.day+'\n'+(picks.time==='lunch'?'Lunch ☀️':'Dinner 🌙')+' · '+picks.food+(extra?'\n“'+extra+'”':'');
+    copied.textContent='Opens your Mail app with everything filled in, just tap Send.';
+    document.getElementById('mail').href='mailto:'+MOOK_EMAIL+'?subject='+encodeURIComponent('Tony picked his birthday dinner 🎂')+'&body='+encodeURIComponent(message);
+    var title=document.getElementById('doneTitle'), status=document.getElementById('status'),
+        fb=document.getElementById('fallback'), btn=this;
+    title.textContent='Sending to Mook… 💌';
+    status.textContent='';
+    fb.hidden=true;
+    btn.disabled=true;
+    plan.classList.remove('show');
+    done.classList.add('show');
+    done.scrollIntoView({behavior:'smooth',block:'start'});
+
+    fetch('https://formsubmit.co/ajax/'+MOOK_EMAIL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({
+        _subject:'Tony picked his birthday dinner 🎂',
+        _template:'box', _captcha:'false',
+        Day:picks.day, Meal:picks.time, Food:picks.food,
+        Note:extra||'-', Message:message
+      })
+    }).then(function(r){return r.json();}).then(function(d){
+      if(String(d.success)!=='true') throw new Error(d.message||'not sent');
+      title.textContent='Sent to Mook ✓';
+      status.textContent= picks.day.indexOf('another day')===0
+        ? 'Mook got your pick. Tell her the day and see you soon 🥳'
+        : 'Mook got your pick. See you on '+picks.day+' 🥳';
+    }).catch(function(){
+      title.textContent='Saved! 🎉';
+      status.textContent='Couldn’t send automatically, use a button below 👇';
+      fb.hidden=false;
+    }).then(function(){btn.disabled=false;});
+  });
+
+  document.getElementById('copy').addEventListener('click',function(){
+    function fallback(){
+      var box=document.getElementById('copyBox');
+      box.value=message;
+      box.setAttribute('readonly','');
+      box.contentEditable='true';
+      var range=document.createRange(); range.selectNodeContents(box);
+      var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+      box.setSelectionRange(0,message.length);
+      var ok=false; try{ok=document.execCommand('copy');}catch(e){}
+      copied.textContent= ok ? 'Copied! Paste it to Mook on Instagram 💌' : 'Copy didn’t work here, just screenshot this and send to Mook 📸';
+    }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(message).then(function(){
+        copied.textContent='Copied! Paste it to Mook on Instagram 💌';
+      },fallback);
+    } else fallback();
+  });
+
+  document.getElementById('edit').addEventListener('click',function(){
+    done.classList.remove('show');
+    plan.classList.add('show');
+    plan.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+})();
+</script>
+</body>
+</html>
